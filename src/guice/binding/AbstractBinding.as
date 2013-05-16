@@ -18,8 +18,9 @@
  */
 package guice.binding {
 	import guice.Injector;
+import guice.reflection.TypeDefinition;
 
-	public class AbstractBinding {
+public class AbstractBinding {
 		public function provide(injector:Injector):Object {
 			return null;
 		}

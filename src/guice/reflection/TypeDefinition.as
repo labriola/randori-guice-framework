@@ -35,6 +35,10 @@ package guice.reflection {
 			return _builtIn;
 		}
 
+		public function isProxy():Boolean {
+			return ( _type.isProxy );
+		}
+
 		public function getClassName():String {
 			var className:String = _type.className;
 			
@@ -110,7 +114,7 @@ package guice.reflection {
 			
 			//We add data to all of our Types. So, if this is not one of our types, then we assume it is a built in or
 			//externally defined. We dont want to spend much time trying to parse those
-			if ( type.injectionPoints == null ) {
+			if ( type.injectionPoints == null && !_type.isProxy ) {
 				this._builtIn = true;
 			}			
 		}

@@ -17,11 +17,13 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package guice.binding {
-	import guice.binding.utility.BindingHashMap;
-	import guice.reflection.TypeDefinition;
+import guice.binding.utility.BindingHashMap;
+import guice.reflection.TypeDefinition;
+import guice.reflection.TypeDefinitionFactory;
 
-	public class Binder {
+public class Binder {
 		private var hashMap:BindingHashMap;
+		private var typeDefinitionFactory:TypeDefinitionFactory;
 
 		public function getBinding( typeDefinition:TypeDefinition ):AbstractBinding {
 			return hashMap[typeDefinition.getClassName()];
@@ -48,11 +50,12 @@ package guice.binding {
 				}
 			}
 			
-			return new BindingFactory(this, typeDefinition );
+			return new BindingFactory(this, typeDefinition, typeDefinitionFactory );
 		}
 
-		public function Binder( hashMap:BindingHashMap ) {
+		public function Binder( hashMap:BindingHashMap, typeDefinitionFactory:TypeDefinitionFactory ) {
 			this.hashMap = hashMap;
+			this.typeDefinitionFactory = typeDefinitionFactory;
 		}
 	}
 }

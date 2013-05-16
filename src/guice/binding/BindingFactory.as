@@ -17,18 +17,20 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package guice.binding {
-	import guice.binding.decorator.ContextDecorator;
-	import guice.binding.decorator.SingletonDecorator;
-	import guice.reflection.TypeDefinition;
+import guice.binding.decorator.ContextDecorator;
+import guice.binding.decorator.SingletonDecorator;
+import guice.reflection.TypeDefinition;
+import guice.reflection.TypeDefinitionFactory;
 
-	
-	public class BindingFactory {
+public class BindingFactory {
 		private var binder:Binder; 
 		private var typeDefinition:TypeDefinition;
+		private var typeDefinitionFactory:TypeDefinitionFactory;
 		private var scope:int;
 		
 		public function to(dependency:Class):AbstractBinding {
-			var abstractBinding:AbstractBinding = withDecoration( new TypeBinding( typeDefinition, new TypeDefinition(dependency) ) );
+			var abstractBinding:AbstractBinding =
+				withDecoration( new TypeBinding( typeDefinition, new TypeDefinition(dependency), typeDefinitionFactory ) );
 			
 			binder.addBinding(abstractBinding);
 			return abstractBinding;
@@ -52,7 +54,7 @@ package guice.binding {
 			this.scope = scope;
 			return this;
 		}
-		
+
 		private function withDecoration( abstractBinding:AbstractBinding ):AbstractBinding {
 			if (scope == Scope.Context) {
 				abstractBinding = new ContextDecorator(abstractBinding);
@@ -63,9 +65,10 @@ package guice.binding {
 			return abstractBinding;
 		}
 		
-		public function BindingFactory( binder:Binder, typeDefinition:TypeDefinition ) {
+		public function BindingFactory( binder:Binder, typeDefinition:TypeDefinition, typeDefinitionFactory:TypeDefinitionFactory ) {
 			this.binder = binder;
-			this.typeDefinition = typeDefinition;			
+			this.typeDefinition = typeDefinition;
+			this.typeDefinitionFactory = typeDefinitionFactory;
 		}
 	}
 }

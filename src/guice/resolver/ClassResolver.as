@@ -17,18 +17,18 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package guice.resolver {
-	import guice.loader.SynchronousClassLoader;
-	import guice.reflection.TypeDefinition;
-	
-	import randori.webkit.page.Window;
+import guice.loader.SynchronousClassLoader;
+import guice.reflection.TypeDefinition;
 
-	public class ClassResolver {
+import randori.webkit.page.Window;
+
+public class ClassResolver {
 		private var loader:SynchronousClassLoader;
 		
 		public function resolveClassName(qualifiedClassName:String):TypeDefinition {
 			var type:* = findDefinition(qualifiedClassName);
 			
-			if (type == null) {
+			if (type == null || type.isProxy ) {
 				var classDefinition:String = loader.loadClass(qualifiedClassName);
 				
 				//Before we load it into memory, check on the super class and see if we need to load *that*
@@ -57,8 +57,9 @@ package guice.resolver {
 			
 			return new TypeDefinition(type);
 		}
-		
-		private function resolveClassDependencies(type:TypeDefinition):void {
+
+		//TODO, unwind this. Inheritance is the wrong answer here, this needs to be refactored
+		protected function resolveClassDependencies(type:TypeDefinition):void {
 			var classDependencies:Vector.<String> = type.getClassDependencies();
 			
 			for ( var i:int=0; i<classDependencies.length; i++) {

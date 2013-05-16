@@ -17,19 +17,19 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package guice {
-	import guice.binding.Binder;
-	import guice.binding.utility.BindingHashMap;
-	import guice.loader.SynchronousClassLoader;
-	import guice.resolver.ClassResolver;
+import guice.binding.Binder;
+import guice.binding.utility.BindingHashMap;
+import guice.loader.SynchronousClassLoader;
+import guice.reflection.TypeDefinitionFactory;
+import guice.resolver.ClassResolver;
 
-	import randori.webkit.xml.XMLHttpRequest;
-
-	public class GuiceJs {
+public class GuiceJs {
 		protected var loader:SynchronousClassLoader;
 		
 		public function createInjector( module:GuiceModule ):Injector {
+			var typeDefinitionFactory:TypeDefinitionFactory = new TypeDefinitionFactory();
 			var hashMap:BindingHashMap = new BindingHashMap();
-			var binder:Binder = new Binder( hashMap );
+			var binder:Binder = new Binder( hashMap, typeDefinitionFactory );
 			var classResolver:ClassResolver = new ClassResolver( loader );
 			
 			if (module != null) {
