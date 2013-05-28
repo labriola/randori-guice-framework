@@ -28,7 +28,7 @@ public class ClassResolver {
 		public function resolveClassName(qualifiedClassName:String):TypeDefinition {
 			var type:* = findDefinition(qualifiedClassName);
 			
-			if (type == null || type.isProxy ) {
+			if (type == null) {
 				var classDefinition:String = loader.loadClass(qualifiedClassName);
 				
 				//Before we load it into memory, check on the super class and see if we need to load *that*
@@ -57,8 +57,7 @@ public class ClassResolver {
 			
 			return new TypeDefinition(type);
 		}
-
-		//TODO, unwind this. Inheritance is the wrong answer here, this needs to be refactored
+		
 		protected function resolveClassDependencies(type:TypeDefinition):void {
 			var classDependencies:Vector.<String> = type.getClassDependencies();
 			

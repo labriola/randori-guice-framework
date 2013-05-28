@@ -27,16 +27,20 @@ public class InjectionClassBuilder {
 		private var contextBuilder:ProxiedDependencyResolver;
 
 		//This is temporary, this whole infrastructure needs a refactor
-		public function buildContext( className:String ):Object {
+		public function buildContextByName( className:String ):Object {
 			var type:TypeDefinition = contextBuilder.resolveClassName(className);
 
 			return injector.getInstanceByDefinition(type);
 		}
 
-		public function buildClass( className:String ):Object {
+		public function buildDependencyByName( className:String ):Object {
 			var type:TypeDefinition = classResolver.resolveClassName(className);
 			
 			return injector.getInstanceByDefinition(type);
+		}
+
+		public function buildDependency( dependency:Class ):Object {
+			return injector.getInstance( dependency );
 		}
 
 		public function InjectionClassBuilder(injector:Injector, classResolver:ClassResolver, contextBuilder:ProxiedDependencyResolver ) {

@@ -17,8 +17,7 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package guice.binding {
-	import guice.Injector;
-import guice.reflection.TypeDefinition;
+import guice.Injector;
 
 public class AbstractBinding {
 		public function provide(injector:Injector):Object {
